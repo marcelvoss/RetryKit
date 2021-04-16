@@ -45,7 +45,7 @@ The output validation closure being called during retrying with the value of the
 
 ### Strategies
 
-RetryKit ships with three built-in different strategies for retrying: `immediate`, `after(delay: Int)`,`.custom((Int) -> TimeInterval)`.
+RetryKit ships with three built-in different strategies for retrying: `immediate`, `after(delay: TimeInterval)`,`.custom((Int) -> TimeInterval)`.
 
 #### .immediate
 `.immediate` is the easiest from all of them. All work is being retried immediately without any delay in between. You might want to use this one when many repetitive retries is not a concern.
