@@ -1,6 +1,6 @@
 # RetryKit
 
-RetryKit is a tiny package that implements a mechanism for retrying work based on strategies (and when using e.g. `NSOperation` is overkill).
+RetryKit is a tiny package that implements a flexible mechanism for retrying work based on strategies and outputs (and when using e.g. `NSOperation` is overkill).
 
 ## Installation
 
@@ -45,4 +45,16 @@ The output validation closure being called during retrying with the value of the
 
 ### Strategies
 
-RetryKit ships with three different strategies for retrying: `immediate`, `after(delay: Int)`,`.custom((Int) -> TimeInterval)`.
+RetryKit ships with three built-in different strategies for retrying: `immediate`, `after(delay: Int)`,`.custom((Int) -> TimeInterval)`.
+
+#### .immediate
+`.immediate` is the easiest from all of them. All work is being retried immediately without any delay in between. You might want to use this one when many repetitive retries is not a concern.
+
+#### after(delay: TimeInterval)
+`after(delay: TimeInterval)` does basically what you would expect by reading its interface. Work is being retried after a constant delay in between attempts.
+
+#### .custom((Int) -> TimeInterval)
+`.custom((Int) -> TimeInterval)` allows for most customization out of these three. The delay between attempts is being provided/calculcated by yourself using the number of retries that have happened so far.
+
+A custom strategy is often most useful when you care about adding _some randomness_ to it and allows for using an [exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff) delay between attempts. 
+
