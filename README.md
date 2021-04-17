@@ -32,23 +32,31 @@ It's that simple! 🎉
 
 Using RetryKit is easy.
 
-Work is being encapsulated in `Task` objects. These objects don't do anything else than keeping abstracting any work, providing an output validation closure and keeping the number of times they have been retried around. They're really simple, as reflected by their initializer:
+Work is being encapsulated in `Task` objects. These objects don't do anything else than abstracting any work, providing an output validation closure and keeping track of the number of times they have been retried. They're really simple but allow for much flexibility, as reflected by their initializer:
 
 ```swift
 let task = Task<Result<String, Error>>(maximumAttempts: 5, work: { output in
-    // ...
+    // perform any synchronous or asynchronous work
+    // and execute the output closure with your result
+    output(.failure(yourProducedError))
 }, outputValidation: { output in
-    // ...
+    // perform any validation and return a flag whether a retry should be performed
+    switch output {
+        case .success:
+            return false
+        case .failure:
+            return true
+    }
 })
 ```
 
-The output validation closure being called during retrying with the value of the produced output and allows for customizing whether work will be retried or not case-by-case. Therefore, it allows for simple but also pretty complex conditions.
+The output validation closure is being called during the retry process with the value of the produced output and allows for customizing the conditions under which a an attempt is being made, case-by-case. Therefore, it allows for simple but also pretty complex conditions.
 
-`Task` objects are being dispatched by a `Retrier` object. `Retrier` objects are equally simple. They do have a single responsibility: dispatching tasks when appropriate.
+`Task` objects are being dispatched by a `Retrier` object. `Retrier` objects are equally simple. They do have a single responsibility: dispatching tasks when appropriate (as decided by the output validation closure and the strategy.
 
 ### Strategies
 
-RetryKit ships with three built-in different strategies for retrying: `immediate`, `after(delay: TimeInterval)`,`.custom((Int) -> TimeInterval)`.
+RetryKit ships with three built-in different strategies for retrying: `immediate`, `after(delay: TimeInterval)`,`.custom((Int) -> TimeInterval)`. These strategies should cover almost every scenario.
 
 #### .immediate
 `.immediate` is the easiest from all of them. All work is being retried immediately without any delay in between. You might want to use this one when many repetitive retries is not a concern.
@@ -60,4 +68,3 @@ RetryKit ships with three built-in different strategies for retrying: `immediate
 `.custom((Int) -> TimeInterval)` allows for most customization out of these three. The delay between attempts is being provided/calculcated by yourself using the number of retries that have happened so far.
 
 A custom strategy is often most useful when you care about adding _some randomness_ to it and allows for using an [exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff) delay between attempts. 
-
