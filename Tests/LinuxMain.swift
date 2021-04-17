@@ -1,7 +1,3 @@
 import XCTest
 
-import RetryKitTests
-
-var tests = [XCTestCaseEntry]()
-tests += RetryKitTests.allTests()
-XCTMain(tests)
+fatalError("Run the tests with `swift test --enable-test-discovery`.")
