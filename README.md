@@ -1,8 +1,9 @@
 # RetryKit
+![](https://github.com/marcelvoss/RetryKit/actions/workflows/ci.yml/badge.svg)
 
 RetryKit is a tiny package that implements a flexible mechanism for retrying work based on strategies and outputs (and when using e.g. `NSOperation` is overkill).
 
-It has been written with two principles in mind: simplicity and elegance.
+It has been written with two principles in mind: **simplicity** and **elegance**.
 
 ## Installation
 
