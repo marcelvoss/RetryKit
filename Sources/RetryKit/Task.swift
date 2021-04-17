@@ -5,7 +5,7 @@
 
 import Foundation
 
-/// An object that represents any work that can be tried again.
+/// An object that represents any work that can be performed again.
 public struct Task<Output> {
     public typealias WorkClosure = (@escaping (Output) -> Void) -> Void
     public typealias OutputValidationClosure = (Output) -> Bool
@@ -16,6 +16,11 @@ public struct Task<Output> {
     private(set) var attempts = 0
     private let maximumAttempts: Int
 
+    /// Initializes a new task.
+    /// - Parameters:
+    ///   - maximumAttempts: The number of maximum retry attempts a `Retrier` is allowed to perform on this task.
+    ///   - work: The work that should be performed during retries.
+    ///   - outputValidation: The validation that is being performed after each attempt and whether another retry should be performed.
     public init(maximumAttempts: Int, work: @escaping WorkClosure, outputValidation: @escaping OutputValidationClosure) {
         self.maximumAttempts = maximumAttempts
         self.work = work

@@ -36,7 +36,7 @@ public struct Retrier {
     // MARK: - Initializer
     /// Initializes a new instance.
     /// - Parameters:
-    ///   - strategy: The strategy that is being used for retrying.
+    ///   - strategy: The strategy that is being used for retrying. The default value is `.immediate`.
     ///   - dispatchQueue: The queue tasks are being dispatched to.
     public init(strategy: Strategy = .immediate, dispatchQueue: DispatchQueue) {
         self.strategy = strategy
@@ -48,7 +48,7 @@ public struct Retrier {
     /// - Parameters:
     ///   - task: The task that should be retried.
     ///   - completion: The completion that is being executed once further retries are not possible anymore.
-    ///                 This will be executed on the queue that this object has been initialized with.
+    ///                 This will be executed on the queue that his object has been initialized with.
     public func begin<Output>(_ task: Task<Output>, completion: (() -> Void)? = nil) {
         guard task.canRetry else {
             dispatchQueue.async {
