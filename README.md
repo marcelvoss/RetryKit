@@ -2,6 +2,8 @@
 
 RetryKit is a tiny package that implements a flexible mechanism for retrying work based on strategies and outputs (and when using e.g. `NSOperation` is overkill).
 
+It has been written with two principles in mind: simplicity and elegance.
+
 ## Installation
 
 RetryKit is distributed using the Swift Package Manager. To install it into a project, add it as a dependency within your `Package.swift` manifest:
