@@ -61,6 +61,7 @@ public struct Retrier {
             task.work { [self] output in
                 // validate whether output is acceptable, otherwise attempt retry
                 guard task.outputValidation(output) else {
+                    completion?()
                     return
                 }
 
