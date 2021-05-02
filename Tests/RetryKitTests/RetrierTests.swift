@@ -48,6 +48,20 @@ final class RetrierTests: XCTestCase {
             XCTAssertEqual(count, 1)
         }
     }
+    
+    func testCallsCompletionClosure() {
+        let task = Task<Void>(maximumAttempts: 2, work: {
+            $0(())
+        }, outputValidation: { false })
+        let retrier = Retrier(dispatchQueue: .main)
+        
+        let expectation = XCTestExpectation(description: "Should call completion closure when succeeds")
+        retrier.begin(task) {
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 1.0)
+    }
 
     // MARK: - Strategies
     func testDelayForImmediateStrategy() {
