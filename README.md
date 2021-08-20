@@ -68,3 +68,6 @@ RetryKit ships with three built-in different strategies for retrying: `immediate
 `.custom((Int) -> TimeInterval)` allows for most customization out of these three. The delay between attempts is being provided/calculcated by yourself using the number of retries that have happened so far.
 
 A custom strategy is often most useful when you care about adding _some randomness_ to it and allows for using an [exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff) delay between attempts. 
+
+## Author
+This has been built [@marcelvoss](https://github.com/marcelvoss) and has been inspired by a similar work that I built for the SumUp merchant application.
